@@ -6,45 +6,58 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
-    ) {}
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-    async validateUserPassword(id: number, password: string): Promise<boolean> {
-        const user = await this.userRepository.findOne({
-            where: { id: id },
-        });
+  async validateUserPassword(name: string, password: string): Promise<boolean> {
+    const user = await this.userRepository.findOne({
+      where: { name: name },
+    });
 
-        if (!user) {
-            return false;
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        return isPasswordValid;
+    if (!user) {
+      return false;
     }
 
-    async createUser(username: string, password: string): Promise<User> {
-        const hashedPassword = await bcrypt.hash(password, 10);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    return isPasswordValid;
+  }
 
-        const user = new User();
-        user.name = username;
-        user.password = hashedPassword;
+  async createUser(
+    username: string,
+    password: string,
+    role: string,
+  ): Promise<Promise<User> | null> {
+    const checkuser = await this.userRepository.findOne({
+      where: { name: username },
+    });
 
-        return this.userRepository.save(user);
+    if (checkuser) {
+      return null;
     }
 
-    async getAllUsers(): Promise<User[]> {
-        return this.userRepository.find();
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User();
+    user.name = username;
+    user.password = hashedPassword;
+    user.role = role;
+
+    return this.userRepository.save(user);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async deleteUser(userId: number): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('User not found'); // Или вы можете использовать Exception фильтры NestJS
     }
 
-    async deleteUser(userId: number): Promise<void> {
-        const user = await this.userRepository.findOne({where: {id: userId}});
-
-        if (!user) {
-            throw new Error('User not found'); // Или вы можете использовать Exception фильтры NestJS
-        }
-
-        await this.userRepository.remove(user); // Удаляем пользователя
-    }
+    await this.userRepository.remove(user); // Удаляем пользователя
+  }
 }

@@ -3,16 +3,18 @@ import { Task } from '../task/task.entity';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    password: string;
+  @Column()
+  password: string;
 
-    @OneToMany(() => Task, (task) => task.assignee, { onDelete: 'CASCADE' })
-    tasks: Task[];
+  @Column()
+  role: string;
+
+  @OneToMany(() => Task, (task) => task.assignee, { onDelete: 'CASCADE' })
+  tasks: Task[];
 }
-
