@@ -5,14 +5,14 @@
     <h1>Авторизация</h1>
 
     <mat-form-field>
-      <input matInput placeholder="Логин">
+      <input matInput placeholder="Логин" [(ngModel)]="login">
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Пароль" type="password">
+      <input matInput placeholder="Пароль" type="password" [(ngModel)]="password">
     </mat-form-field>
 
-    <button mat-stroked-button>Вход</button>
+    <button mat-stroked-button (click)="onLogin()">Вход</button>
   </mat-card>
 </div>
 

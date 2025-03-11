@@ -28,10 +28,10 @@ export class UserController {
   async login(
     @Body('name') name: string,
     @Body('password') password: string,
-  ): Promise<string> {
+  ): Promise<object|null> {
     const isValid = await this.userService.validateUserPassword(name, password);
-    if (!isValid) throw new Error('Invalid credentials');
-    return 'Login successful';
+
+    return isValid;
   }
 
   @Post()

@@ -11,17 +11,21 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async validateUserPassword(name: string, password: string): Promise<boolean> {
+  async validateUserPassword(name: string, password: string): Promise<object | null> {
     const user = await this.userRepository.findOne({
       where: { name: name },
     });
 
     if (!user) {
-      return false;
+      return null;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    return isPasswordValid;
+    return {
+      id:user.id,
+      name: user.name,
+      role: user.role
+    };
   }
 
   async createUser(
