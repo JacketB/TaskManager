@@ -8,12 +8,11 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const name = localStorage.getItem('name'); // Проверяем, есть ли токен
-    if (name) {
-      console.log(true)
-      return true; // Разрешаем переход
+    const login = localStorage.getItem('login');
+    if (login) {
+      return true;
     } else {
-      this.router.navigate(['/login']); // Перенаправляем на login
+      this.router.navigate(['/login']);
       return false;
     }
   }

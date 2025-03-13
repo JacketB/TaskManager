@@ -29,8 +29,7 @@ export class LoginComponent {
             localStorage.setItem('id', response.id);
             localStorage.setItem('role', response.role);
 
-            this.router.navigate(['/home']).then(() => {
-              console.log("Навигация успешна!");
+            this.router.navigate(['/']).then(() => {
             }).catch(err => console.error("Ошибка навигации:", err));
           } else {
             alert('Ошибка авторизации');
