@@ -21,6 +21,11 @@ export class UserService {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if(!isPasswordValid) {
+      return null;
+    }
+
     return {
       id:user.id,
       name: user.name,
@@ -47,6 +52,22 @@ export class UserService {
     user.name = username;
     user.password = hashedPassword;
     user.role = role;
+
+    return this.userRepository.save(user);
+  }
+
+  async updateUser(id: number, username: string, password: string | null, role: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({ where: { id: id } });
+
+    if (!user) {
+      return null;
+    }
+    user.name = username;
+    user.role = role;
+
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
 
     return this.userRepository.save(user);
   }

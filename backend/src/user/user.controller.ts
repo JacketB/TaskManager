@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param } from '@nestjs/common';
+import {Controller, Post, Body, Get, Delete, Param, Put} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import {
@@ -29,9 +29,7 @@ export class UserController {
     @Body('name') name: string,
     @Body('password') password: string,
   ): Promise<object|null> {
-    const isValid = await this.userService.validateUserPassword(name, password);
-
-    return isValid;
+    return await this.userService.validateUserPassword(name, password);
   }
 
   @Post()
@@ -55,6 +53,35 @@ export class UserController {
     @Body() body: { name: string; password: string; role: string },
   ): Promise<Promise<User>| null> {
     return this.userService.createUser(body.name, body.password, body.role);
+  }
+
+  @Put('update/:id')
+  @ApiOperation({ summary: 'Обновить данные пользователя' })
+  @ApiResponse({
+    status: 200,
+    description: 'Пользователь успешно обновлён',
+    type: User,
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    example: 1,
+    description: 'ID пользователя',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        password: { type: 'string', example: 'newSecurePassword123' },
+        role: { type: 'string', example: 'admin' },
+      },
+    },
+  })
+  async update(
+      @Param('id') id: number,
+      @Body() body: {username: string, password: string | null; role: string }
+  ): Promise<User | null> {
+    return this.userService.updateUser(id,body.username, body.password, body.role);
   }
 
   @Get()

@@ -9,7 +9,7 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item *ngIf="userRole == 'admin'">
         <mat-icon>face</mat-icon>
-        <span>Панель администратора</span>
+        <a href="/admin">Панель администратора</a>
       </button>
       <button (click)="logout()" mat-menu-item>
         <mat-icon>logout</mat-icon>

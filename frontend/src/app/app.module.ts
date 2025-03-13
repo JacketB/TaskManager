@@ -19,6 +19,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
 import {MatListModule} from "@angular/material/list";
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UserDialogComponent } from './components/user-dialog/user-dialog.compon
     HomeComponent,
     ProjectDialogComponent,
     UserDialogComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
