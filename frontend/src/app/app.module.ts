@@ -10,14 +10,23 @@ import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import { HomeComponent } from './components/home/home.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
+import {MatListModule} from "@angular/material/list";
+import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
+    ProjectDialogComponent,
+    UserDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +40,11 @@ import { HomeComponent } from './components/home/home.component';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

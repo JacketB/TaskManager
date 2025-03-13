@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Добавить пользователя</h2>
+<mat-dialog-content>
+  <mat-form-field class="full-width">
+    <mat-label>Логин</mat-label>
+    <input matInput [(ngModel)]="user.name">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Пароль</mat-label>
+    <input matInput [(ngModel)]="user.password">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Роль</mat-label>
+    <select matNativeControl required [(ngModel)]="user.role">
+      <option value="admin">Администартор</option>
+      <option value="user">Работник</option>
+      <option value="blocked">Заблокированный</option>
+    </select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-raised-button color="primary" (click)="addUser()">Добавить</button>
+</mat-dialog-actions>

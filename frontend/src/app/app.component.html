@@ -1,5 +1,22 @@
 <mat-toolbar>
   <span>Планировщик задач</span>
+  <div class="flex-center" *ngIf="isAuthenticated">
+    <span class="user-login">{{userLogin}}</span>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngIf="userRole == 'admin'">
+        <mat-icon>face</mat-icon>
+        <span>Панель администратора</span>
+      </button>
+      <button (click)="logout()" mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Выход</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

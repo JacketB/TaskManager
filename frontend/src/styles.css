@@ -1,7 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import 'material-icons/iconfont/material-icons.css';
 html, body { height: 100%; }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #e3e3e3;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+.user-login {
+  margin: 15px;
+  padding: 2px 10px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: end;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.p-10 {
+  padding: 10px;
 }

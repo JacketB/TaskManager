@@ -1,1 +1,22 @@
-<p>home works!</p>
+<div class="container flex-between">
+  <h1>ВСЕ ПРОЕКТЫ</h1>
+  <button mat-raised-button (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+    <span>добавить проект</span>
+  </button>
+</div>
+
+<div class="container p-10">
+    <ng-container *ngFor="let project of allProjects">
+      <mat-card class="card">
+        <div class="list-item">
+          <span>{{project.name}}</span>
+
+          <button (click)="deleteProject(project.id)" mat-raised-button color="warn">
+            <mat-icon> delete </mat-icon>
+            <span>удалить</span>
+          </button>
+        </div>
+      </mat-card>
+    </ng-container>
+</div>

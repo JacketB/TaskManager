@@ -9,6 +9,9 @@ export class Project {
     @Column()
     name: string;
 
+    @Column()
+    description: string;
+
     @OneToMany(() => Task, (task) => task.project, { onDelete: 'CASCADE' })
     tasks: Task[];
 }

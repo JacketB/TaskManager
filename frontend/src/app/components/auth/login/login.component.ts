@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {LOGIN_URL} from "../../../consts/api";
 import {Router} from "@angular/router";
 @Component({
@@ -12,7 +12,7 @@ export class LoginComponent {
   password: string = '';
 
   constructor(private http: HttpClient, private router: Router) {
-
+    localStorage.clear();
   }
 
   onLogin() {
