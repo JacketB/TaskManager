@@ -1,7 +1,7 @@
 export const API_URL = 'http://localhost:3000/'
 export const LOGIN_URL = 'http://localhost:3000/users/login'
 export const USERS_URL = 'http://localhost:3000/users'
-export const DELETE_USERS_URL = 'http://localhost:3000/users/delete/:id'
+export const DELETE_USERS_URL = 'http://localhost:3000/users/delete/'
 export const ADD_NEW_PROJECT_URL = 'http://localhost:3000/projects/new'
 export const GET_ALL_PROJECTS_URL = 'http://localhost:3000/projects/'
 export const DELETE_PROJECT_URL = 'http://localhost:3000/projects/delete/'

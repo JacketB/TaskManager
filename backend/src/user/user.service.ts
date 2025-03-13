@@ -73,16 +73,19 @@ export class UserService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return this.userRepository.find();
+    const users = await this.userRepository.find();
+
+    return users.map(user => {
+      return { ...user, password: '' };
+    });
   }
+
 
   async deleteUser(userId: number): Promise<void> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
-    if (!user) {
-      throw new Error('User not found'); // Или вы можете использовать Exception фильтры NestJS
-    }
+    if (!user) throw new Error('User not found');
 
-    await this.userRepository.remove(user); // Удаляем пользователя
+    await this.userRepository.remove(user);
   }
 }

@@ -20,6 +20,7 @@ import { ProjectDialogComponent } from './components/project-dialog/project-dial
 import {MatListModule} from "@angular/material/list";
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { AdminComponent } from './components/admin/admin.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AdminComponent } from './components/admin/admin.component';
     MatDialogModule,
     MatFormFieldModule,
     MatListModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

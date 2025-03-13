@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import {UserData} from "../../consts/UserData";
+import {MatDialog} from "@angular/material/dialog";
+import { DELETE_USERS_URL, USERS_URL} from "../../consts/api";
+import {HttpClient} from "@angular/common/http";
+import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 
 @Component({
   selector: 'app-admin',
@@ -6,5 +11,40 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  users: UserData[] = [];
+  displayedColumns: string[] = ['id', 'name', 'role', ''];
 
+  constructor(private dialog: MatDialog, private http: HttpClient) {
+    this.getUsers();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(UserDialogComponent, {
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe((result: UserData) => {
+      if (result) {
+        this.users.push(result);
+
+        this.http.post(USERS_URL, result, { responseType: 'json' }).subscribe((response) => {
+          if(response) {
+            this.getUsers();
+          }
+        })
+      }
+    });
+  }
+
+  getUsers(): void {
+    this.http.get(USERS_URL).subscribe((response: UserData[] | any) => {
+      this.users = response;
+    })
+  }
+
+  deleteUser(id: number | undefined = undefined) {
+    this.http.delete(DELETE_USERS_URL + id, { responseType: 'json' }).subscribe(() => {
+      this.getUsers();
+    })
+  }
 }
