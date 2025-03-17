@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Редактировать пользователя</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="userForm">
+    <mat-form-field>
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="userForm.controls['name'].hasError('required')">
+        Логин обязателен
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Роль</mat-label>
+      <input matInput formControlName="role" />
+      <mat-error *ngIf="userForm.controls['role'].hasError('required')">
+        Роль обязательна
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Сохранить</button>
+</mat-dialog-actions>

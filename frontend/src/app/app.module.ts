@@ -21,6 +21,7 @@ import {MatListModule} from "@angular/material/list";
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { AdminComponent } from './components/admin/admin.component';
 import {MatTableModule} from "@angular/material/table";
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {MatTableModule} from "@angular/material/table";
     ProjectDialogComponent,
     UserDialogComponent,
     AdminComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,

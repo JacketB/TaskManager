@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {UserData} from "../../consts/UserData";
 import {MatDialog} from "@angular/material/dialog";
-import { DELETE_USERS_URL, USERS_URL} from "../../consts/api";
+import {DELETE_USERS_URL, UPDATE_USERS_URL, USERS_URL} from "../../consts/api";
 import {HttpClient} from "@angular/common/http";
 import {UserDialogComponent} from "../user-dialog/user-dialog.component";
+import {EditUserComponent} from "../edit-user/edit-user.component";
 
 @Component({
   selector: 'app-admin',
@@ -12,7 +13,7 @@ import {UserDialogComponent} from "../user-dialog/user-dialog.component";
 })
 export class AdminComponent {
   users: UserData[] = [];
-  displayedColumns: string[] = ['id', 'name', 'role', ''];
+  displayedColumns: string[] = ['id', 'name', 'role', 'update', 'actions'];
 
   constructor(private dialog: MatDialog, private http: HttpClient) {
     this.getUsers();
@@ -46,5 +47,21 @@ export class AdminComponent {
     this.http.delete(DELETE_USERS_URL + id, { responseType: 'json' }).subscribe(() => {
       this.getUsers();
     })
+  }
+
+  editUser(user: UserData): void {
+    const dialogRef = this.dialog.open(EditUserComponent, {
+      width: '800px',
+      data: user
+    });
+
+    dialogRef.afterClosed().subscribe((updatedUser: any) => {
+      if (updatedUser) {
+        const index = this.users.findIndex((u: any) => u.id === updatedUser.id);
+        if (index !== -1) {
+          this.users[index] = updatedUser;
+        }
+      }
+    });
   }
 }
