@@ -1,9 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
-import {HttpClient} from "@angular/common/http";
-import {ProjectData} from "../../consts/ProjectData";
-import {GET_ALL_COLUMNS} from "../../consts/api";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {KanbanService} from "../../kanban.service";
+import {MatDialog} from "@angular/material/dialog";
+import {TaskDialogComponent} from "../task-dialog/task-dialog.component";
+import {ActivatedRoute} from "@angular/router";
+
+interface Task {
+  id: number;
+  title: string;
+  description: string;
+  columnId: number;
+}
+
+interface Column {
+  id: number;
+  name: string;
+  tasks: Task[];
+}
 
 @Component({
   selector: 'app-project-page',
@@ -11,46 +24,58 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
   styleUrls: ['./project-page.component.css']
 })
 export class ProjectPageComponent implements OnInit {
+  projectId: number = 0;
   columns: any[] = [];
   connectedLists: string[] = [];
 
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private kanbanService: KanbanService
+  ) {}
+
   ngOnInit() {
+    this.projectId = +this.route.snapshot.paramMap.get('id')!;
     this.loadColumns();
-    this.loadTasks();
   }
 
   loadColumns() {
-    this.columns = [
-      { id: 1, name: 'Opened', tasks: [] },
-      { id: 2, name: 'In Work', tasks: [] },
-      { id: 3, name: 'Review', tasks: [] },
-      { id: 4, name: 'Done', tasks: [] }
-    ];
+    this.kanbanService.getColumns().subscribe(columns => {
+      this.columns = columns;
 
-    // Создаём массив привязанных списков для drag & drop
-    this.connectedLists = this.columns.map(col => `col-${col.id}`);
-  }
-
-  loadTasks() {
-    const tasksFromServer = [
-      { id: 101, title: 'Fix bug #123', statusId: 1 },
-      { id: 102, title: 'Refactor code', statusId: 1 },
-      { id: 103, title: 'Implement feature X', statusId: 2 },
-      { id: 104, title: 'Write tests', statusId: 4 }
-    ];
-
-    this.columns.forEach(column => {
-      column.tasks = tasksFromServer.filter(task => task.statusId === column.id);
+      this.connectedLists = this.columns.map(col => col.id.toString());
     });
   }
 
-  drop(event: CdkDragDrop<any[]>, newStatusId: number) {
+  openTaskDialog() {
+    const dialogRef = this.dialog.open(TaskDialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.columns.length > 0) {
+        const firstColumnId = this.columns[0].id;
+
+        const taskData = {
+          ...result,
+          projectId: this.projectId,
+          columnId: firstColumnId,
+          created_at: new Date().toISOString(),
+          isCompleted: false,
+        };
+
+        this.kanbanService.createTask(taskData).subscribe(newTask => {
+          const firstColumn = this.columns.find(col => col.id === firstColumnId);
+          if (firstColumn) firstColumn.tasks.push(newTask);
+        });
+      }
+    });
+  }
+
+  drop(event: CdkDragDrop<Task[]>, columnId: number) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      const task = event.previousContainer.data[event.previousIndex];
-      task.statusId = newStatusId;
-
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

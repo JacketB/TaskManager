@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Создать задачу</h2>
+<form [formGroup]="taskForm">
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Описание</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Дата завершения</mat-label>
+    <input matInput type="date" formControlName="dueDate">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Приоритет</mat-label>
+    <mat-select formControlName="priority">
+      <mat-option value="Low">Низкий</mat-option>
+      <mat-option value="Medium">Средний</mat-option>
+      <mat-option value="High">Высокий</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Исполнитель (User ID)</mat-label>
+    <input matInput formControlName="userId" type="number">
+  </mat-form-field>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Отмена</button>
+    <button mat-button (click)="createTask()" [disabled]="taskForm.invalid">Создать</button>
+  </div>
+</form>

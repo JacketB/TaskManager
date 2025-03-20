@@ -24,6 +24,8 @@ import {MatTableModule} from "@angular/material/table";
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ProjectPageComponent } from './components/project-page/project-page.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     AdminComponent,
     EditUserComponent,
     ProjectPageComponent,
+    TaskDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     MatListModule,
     MatTableModule,
     DragDropModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

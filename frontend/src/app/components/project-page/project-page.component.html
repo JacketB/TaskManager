@@ -1,11 +1,13 @@
+<button mat-button (click)="openTaskDialog()">➕ Добавить задачу</button>
+
+
 <div class="board">
   <div *ngFor="let column of columns" class="example-container">
-
     <h2>{{ column.name }}</h2>
 
     <div
       cdkDropList
-      #colList="cdkDropList"
+      [id]="'col-' + column.id"
       [cdkDropListData]="column.tasks"
       [cdkDropListConnectedTo]="connectedLists"
       class="example-list"
