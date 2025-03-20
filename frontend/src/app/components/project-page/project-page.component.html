@@ -7,7 +7,7 @@
 
     <div
       cdkDropList
-      [id]="'col-' + column.id"
+      [id]="column.id.toString()"
       [cdkDropListData]="column.tasks"
       [cdkDropListConnectedTo]="connectedLists"
       class="example-list"

@@ -49,5 +49,7 @@ export class KanbanService {
     return this.http.post<Task>(`${this.baseUrl}/tasks`, task);
   }
 
-
+  getTasksByProjectId(projectId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/tasks/project/${projectId}`);
+  }
 }

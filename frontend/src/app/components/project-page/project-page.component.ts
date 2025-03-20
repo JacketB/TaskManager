@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {KanbanService} from "../../kanban.service";
-import {MatDialog} from "@angular/material/dialog";
-import {TaskDialogComponent} from "../task-dialog/task-dialog.component";
-import {ActivatedRoute} from "@angular/router";
+// project-page.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { KanbanService } from '../../kanban.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 interface Task {
   id: number;
@@ -25,7 +26,7 @@ interface Column {
 })
 export class ProjectPageComponent implements OnInit {
   projectId: number = 0;
-  columns: any[] = [];
+  columns: Column[] = [];
   connectedLists: string[] = [];
 
   constructor(
@@ -34,20 +35,38 @@ export class ProjectPageComponent implements OnInit {
     private kanbanService: KanbanService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.projectId = +this.route.snapshot.paramMap.get('id')!;
     this.loadColumns();
   }
 
-  loadColumns() {
+  loadColumns(): void {
     this.kanbanService.getColumns().subscribe(columns => {
-      this.columns = columns;
-
+      this.columns = columns.map(col => ({
+        ...col,
+        tasks: []
+      }));
       this.connectedLists = this.columns.map(col => col.id.toString());
+    });
+
+    this.loadTasks();
+  }
+
+
+  loadTasks(): void {
+    this.kanbanService.getTasksByProjectId(this.projectId).subscribe(tasks => {
+      tasks.forEach(task => {
+        const column = this.columns.find(col => col.id === task.column.id);
+        if (column) {
+          column.tasks.push(task);
+        } else {
+          console.error(`Колонка с ID ${task.columnId} не найдена для задачи ${task.id}`);
+        }
+      });
     });
   }
 
-  openTaskDialog() {
+  openTaskDialog(): void {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '400px',
     });
@@ -72,7 +91,7 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<Task[]>, columnId: number) {
+  drop(event: CdkDragDrop<Task[]>, columnId: number): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

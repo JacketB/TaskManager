@@ -33,7 +33,6 @@ export class TaskService {
         const user = await this.userRepository.findOne({ where: { id: userId } });
         const column = await this.taskColumnRepository.findOne({ where: { id: columnId } });
 
-        // Проверка на null и выбрасывание исключений, если что-то не найдено
         if (!project) {
             throw new NotFoundException(`Проект с id ${projectId} не найден`);
         }
@@ -59,5 +58,16 @@ export class TaskService {
 
     async getAllTasks(): Promise<Task[]> {
         return this.taskRepository.find();
+    }
+
+    async getTasksByProjectId(projectId: number): Promise<Task[]> {
+        const project = await this.projectRepository.findOne({ where: { id: projectId } });
+
+        if (!project) {
+            throw new NotFoundException(`Проект с id ${projectId} не найден`);
+        }
+
+        // Получаем все задачи, связанные с проектом
+        return this.taskRepository.find({ where: { project: { id: projectId } }, relations: ['column', 'assignee'] });
     }
 }
