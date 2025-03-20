@@ -8,7 +8,7 @@
 
 <div class="container p-10">
     <ng-container *ngFor="let project of allProjects">
-      <mat-card class="card">
+      <mat-card class="card" (click)="gotoProject(project.id)">
         <div class="list-item">
           <span>{{project.name}}</span>
 

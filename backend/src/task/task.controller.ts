@@ -17,6 +17,7 @@ export class TaskController {
             body.title,
             body.description,
             body.dueDate,
+            body.created_at,
             body.priority,
             body.userId,
             body.columnId,

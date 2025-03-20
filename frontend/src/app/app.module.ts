@@ -22,6 +22,8 @@ import { UserDialogComponent } from './components/user-dialog/user-dialog.compon
 import { AdminComponent } from './components/admin/admin.component';
 import {MatTableModule} from "@angular/material/table";
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { ProjectPageComponent } from './components/project-page/project-page.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     UserDialogComponent,
     AdminComponent,
     EditUserComponent,
+    ProjectPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
     MatFormFieldModule,
     MatListModule,
     MatTableModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

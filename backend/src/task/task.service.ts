@@ -24,6 +24,7 @@ export class TaskService {
         title: string,
         description: string,
         dueDate: Date,
+        created_at: Date,
         priority: string,
         userId: number,
         columnId: number,
@@ -47,6 +48,7 @@ export class TaskService {
         task.title = title;
         task.description = description;
         task.dueDate = dueDate;
+        task.created_at = created_at;
         task.priority = priority;
         task.project = project;
         task.assignee = user;

@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProjectData} from "../../consts/ProjectData";
 import {HttpClient} from "@angular/common/http";
 import {ADD_NEW_PROJECT_URL, DELETE_PROJECT_URL, GET_ALL_PROJECTS_URL} from "../../consts/api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class HomeComponent {
   newProject?: ProjectData;
   allProjects?: ProjectData[];
 
-  constructor(private dialog: MatDialog, private http: HttpClient) {
+  constructor(private dialog: MatDialog, private http: HttpClient, private router: Router) {
     this.getProjects();
   }
 
@@ -48,5 +49,9 @@ export class HomeComponent {
         this.getProjects();
       })
     }
+  }
+
+  gotoProject(id: number | undefined = undefined) {
+    this.router.navigate(['/project/' + id])
   }
 }
