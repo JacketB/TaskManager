@@ -26,6 +26,10 @@ a {
   justify-content: end;
 }
 
+.center {
+  margin-top: 8px;
+}
+
 .flex-between {
   display: flex;
   justify-content: space-between;

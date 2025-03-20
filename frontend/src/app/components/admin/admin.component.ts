@@ -13,7 +13,7 @@ import {EditUserComponent} from "../edit-user/edit-user.component";
 })
 export class AdminComponent {
   users: UserData[] = [];
-  displayedColumns: string[] = ['id', 'name', 'role', 'update', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'role', 'actions'];
 
   constructor(private dialog: MatDialog, private http: HttpClient) {
     this.getUsers();

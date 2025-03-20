@@ -1,5 +1,10 @@
 <mat-toolbar>
-  <span>Планировщик задач</span>
+  <div class="flex-center">
+    <a mat-icon-button href="/" class="flex-center">
+      <mat-icon>home</mat-icon>
+    </a>
+    <span>Планировщик задач</span>
+  </div>
   <div class="flex-center" *ngIf="isAuthenticated">
     <span class="user-login">{{userLogin}}</span>
 
