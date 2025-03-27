@@ -27,12 +27,8 @@ export class KanbanService {
     return this.http.get<Column[]>(`${this.baseUrl}/task-columns`);
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
-  }
-
-  updateTaskColumn(taskId: number, newColumnId: number): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/tasks/${taskId}`, { columnId: newColumnId });
+  updateTask(id: number, data: Partial<Task>): Observable<Task> {
+    return this.http.put<Task>(`${this.baseUrl}/tasks/${id}`, data);
   }
 
   createTask(task: {

@@ -1,4 +1,4 @@
-import {Controller, Post, Body, Get, Param} from '@nestjs/common';
+import {Controller, Post, Body, Get, Param, Put} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task } from './task.entity';
 import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
@@ -34,7 +34,26 @@ export class TaskController {
     @Get('project/:projectId')
     @ApiOperation({ summary: 'Получить задачи по id проекта' })
     @ApiResponse({ status: 200, description: 'Список задач для проекта', type: [Task] })
-    async getTasksByProjectId(@Param('id') projectId: number): Promise<Task[]> {
+    async getTasksByProjectId(@Param('projectId') projectId: number): Promise<Task[]> {
         return this.taskService.getTasksByProjectId(projectId);
+    }
+
+    @Put(':id')
+    @ApiOperation({ summary: 'Обновить задачу' })
+    @ApiResponse({ status: 200, description: 'Задача обновлена', type: Task })
+    @ApiResponse({ status: 404, description: 'Задача не найдена' })
+    async updateTask(
+        @Param('id') id: number,
+    @Body() body: any
+    ): Promise<Task> {
+        return this.taskService.updateTask(
+            id,
+            body.title,
+            body.description,
+            body.dueDate,
+            body.priority,
+            body.userId,
+            body.columnId
+        );
     }
 }

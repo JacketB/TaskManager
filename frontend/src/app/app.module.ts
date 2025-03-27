@@ -26,6 +26,8 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
 import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -39,27 +41,29 @@ import {MatSelectModule} from "@angular/material/select";
     ProjectPageComponent,
     TaskDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatToolbarModule,
-    FormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatTableModule,
-    DragDropModule,
-    MatSelectModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatInputModule,
+        MatButtonModule,
+        MatToolbarModule,
+        FormsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatTableModule,
+        DragDropModule,
+        MatSelectModule,
+        MatDatepickerModule,
+      MatNativeDateModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

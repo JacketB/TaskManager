@@ -1,9 +1,10 @@
-<button mat-button (click)="openTaskDialog()">➕ Добавить задачу</button>
-
+<div class="flex-end p-10" *ngIf="localStorage.getItem('role') == 'admin'">
+  <button mat-flat-button color="primary" (click)="openTaskDialog()">Добавить задачу</button>
+</div>
 
 <div class="board">
   <div *ngFor="let column of columns" class="example-container">
-    <h2>{{ column.name }}</h2>
+    <h2>{{ columnsTranslate[column.name] }}  {{column.tasks.length}}</h2>
 
     <div
       cdkDropList
@@ -11,10 +12,38 @@
       [cdkDropListData]="column.tasks"
       [cdkDropListConnectedTo]="connectedLists"
       class="example-list"
-      (cdkDropListDropped)="drop($event, column.id)">
+      (cdkDropListDropped)="drop($event, column.id)"
+      [cdkDropListDisabled]="localStorage.getItem('role') !== 'admin' && restrictedColumns  == column.id"
+    >
 
       <div *ngFor="let task of column.tasks" class="example-box" cdkDrag>
-        {{ task.title }}
+        <h2 class="title">{{ task.title }}</h2>
+
+        <div class="flex-between">
+          <span>Приоритет</span>
+          <span [ngClass]="{
+            'high-priority': task.priority === 'High',
+            'medium-priority': task.priority === 'Medium',
+            'low-priority': task.priority === 'Low'
+          }">
+            {{ priorityTranslate[task.priority] }}
+          </span>
+        </div>
+
+        <div class="flex-between">
+          <span>Создана</span>
+          <span>{{ task.created_at | date:'dd.MM.yyyy' }}</span>
+        </div>
+
+        <div class="flex-between">
+          <span>Окончание</span>
+          <span>{{ task.dueDate | date:'dd.MM.yyyy' }}</span>
+        </div>
+
+        <div class="flex-between">
+          <span>Исполнитель</span>
+          <span>{{task.assignee.name}}</span>
+        </div>
       </div>
 
     </div>

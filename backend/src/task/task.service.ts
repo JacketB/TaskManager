@@ -67,7 +67,41 @@ export class TaskService {
             throw new NotFoundException(`Проект с id ${projectId} не найден`);
         }
 
-        // Получаем все задачи, связанные с проектом
         return this.taskRepository.find({ where: { project: { id: projectId } }, relations: ['column', 'assignee'] });
+    }
+
+    async updateTask(
+        id: number,
+        title?: string,
+        description?: string,
+        dueDate?: Date,
+        priority?: string,
+        userId?: number,
+        columnId?: number
+    ): Promise<Task> {
+        const task = await this.taskRepository.findOne({ where: { id }, relations: ['assignee', 'column'] });
+
+        if (!task) {
+            throw new NotFoundException(`Задача с id ${id} не найдена`);
+        }
+
+        if (title !== undefined) task.title = title;
+        if (description !== undefined) task.description = description;
+        if (dueDate !== undefined) task.dueDate = dueDate;
+        if (priority !== undefined) task.priority = priority;
+
+        if (userId !== undefined) {
+            const user = await this.userRepository.findOne({ where: { id: userId } });
+            if (!user) throw new NotFoundException(`Пользователь с id ${userId} не найден`);
+            task.assignee = user;
+        }
+
+        if (columnId !== undefined) {
+            const column = await this.taskColumnRepository.findOne({ where: { id: columnId } });
+            if (!column) throw new NotFoundException(`Колонка с id ${columnId} не найдена`);
+            task.column = column;
+        }
+
+        return this.taskRepository.save(task);
     }
 }
