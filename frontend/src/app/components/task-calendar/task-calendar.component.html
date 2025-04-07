@@ -1,0 +1,35 @@
+<div class="p-10">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <div class="flex-center">
+          <div>Задачи на {{ currentMonth }}</div>
+          <button mat-icon-button (click)="prevMonth()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button (click)="nextMonth()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="calendar-grid">
+        <div class="calendar-day" *ngFor="let day of days">
+          <div class="date">{{ day | date: 'dd.MM' }}</div>
+
+          <ng-container *ngFor="let task of tasks">
+            <div class="task-chip"
+                 *ngIf="isTaskOnDay(task, day)"
+                 [ngClass]="{ overdue: isTaskOnDay(task, day) && task.dueDate < day }">
+              {{ task.title }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+

@@ -1,55 +1,66 @@
-<div class="flex-end p-10" *ngIf="localStorage.getItem('role') == 'admin'">
-  <button mat-flat-button color="primary" (click)="openTaskDialog()">Добавить задачу</button>
-</div>
+<mat-tab-group >
+  <mat-tab  label="Задачи">
+    <div class="flex-end p-10" *ngIf="localStorage.getItem('role') == 'admin'">
+      <button mat-flat-button color="primary" (click)="openTaskDialog()">Добавить задачу</button>
+    </div>
 
-<div class="board">
-  <div *ngFor="let column of columns" class="example-container">
-    <h2>{{ columnsTranslate[column.name] }}  {{column.tasks.length}}</h2>
+    <div class="board">
+      <div *ngFor="let column of columns" class="example-container">
+        <h2>{{ columnsTranslate[column.name] }}  {{column.tasks.length}}</h2>
 
-    <div
-      cdkDropList
-      [id]="column.id.toString()"
-      [cdkDropListData]="column.tasks"
-      [cdkDropListConnectedTo]="connectedLists"
-      class="example-list"
-      (cdkDropListDropped)="drop($event, column.id)"
-      [cdkDropListDisabled]="localStorage.getItem('role') !== 'admin' && restrictedColumns  == column.id"
-    >
-      <div *ngFor="let task of column.tasks" class="example-box" cdkDrag (click)="openTaskDetailDialog(task)">
-        <h2 class="title">{{ task.title }}</h2>
+        <div
+          cdkDropList
+          [id]="column.id.toString()"
+          [cdkDropListData]="column.tasks"
+          [cdkDropListConnectedTo]="connectedLists"
+          class="example-list"
+          (cdkDropListDropped)="drop($event, column.id)"
+          [cdkDropListDisabled]="localStorage.getItem('role') !== 'admin' && restrictedColumns  == column.id"
+        >
+          <div *ngFor="let task of column.tasks" class="example-box" cdkDrag (click)="openTaskDetailDialog(task)">
+            <h2 class="title">{{ task.title }}</h2>
 
-        <div class="flex-between">
-          <span>Приоритет</span>
-          <span [ngClass]="{
+            <div class="flex-between">
+              <span>Приоритет</span>
+              <span [ngClass]="{
             'high-priority': task.priority === 'High',
             'medium-priority': task.priority === 'Medium',
             'low-priority': task.priority === 'Low'
           }">
             {{ priorityTranslate[task.priority] }}
           </span>
-        </div>
+            </div>
 
-        <div class="flex-between">
-          <span>Создана</span>
-          <span>{{ task.created_at | date:'dd.MM.yyyy' }}</span>
-        </div>
+            <div class="flex-between">
+              <span>Создана</span>
+              <span>{{ task.created_at | date:'dd.MM.yyyy' }}</span>
+            </div>
 
-        <div class="flex-between">
-          <span>Окончание</span>
-          <span>
+            <div class="flex-between">
+              <span>Окончание</span>
+              <span>
             {{ task.dueDate | date:'dd.MM.yyyy' }}
-            <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
+                <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
             • <span class="overdue-text">Просрочено на {{ getOverdueDays(task.dueDate) }} {{ getDaysText(getOverdueDays(task.dueDate)) }}</span>
             </span>
           </span>
-        </div>
+            </div>
 
-        <div class="flex-between">
-          <span>Исполнитель</span>
-          <span>{{task.assignee.name}}</span>
+            <div class="flex-between">
+              <span>Исполнитель</span>
+              <span>{{task.assignee.name}}</span>
+            </div>
+          </div>
+
         </div>
       </div>
-
     </div>
-  </div>
-</div>
+  </mat-tab>
+  <mat-tab label="Календарь" class="p-10">
+    <app-task-calendar [tasks]="allTasks"></app-task-calendar>
+
+
+  </mat-tab>
+</mat-tab-group>
+
+

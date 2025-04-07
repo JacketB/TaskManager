@@ -30,6 +30,7 @@ export class ProjectPageComponent implements OnInit {
   columns: Column[] = [];
   connectedLists: string[] = [];
   restrictedColumns: number = 4;
+  allTasks: any[] = [];
 
   columnsTranslate: any = {
     "opened": "открыто",
@@ -80,6 +81,8 @@ export class ProjectPageComponent implements OnInit {
           console.error(`Колонка с ID ${task.columnId} не найдена для задачи ${task.id}`);
         }
       });
+
+      this.allTasks = this.columns.flatMap(col => col.tasks);
     });
   }
 

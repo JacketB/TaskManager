@@ -80,3 +80,6 @@ h2 {
   color: red;
   font-weight: bold;
 }
+::ng-deep mat-tab-body{
+  height: 88vh !important;
+}
