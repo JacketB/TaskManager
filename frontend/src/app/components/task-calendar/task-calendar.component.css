@@ -35,3 +35,8 @@ button {
   margin: 0 10px;
   cursor: pointer;
 }
+
+.text-center {
+  text-align: center;
+  width: 100%;
+}

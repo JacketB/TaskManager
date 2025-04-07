@@ -33,6 +33,7 @@
   </mat-form-field>
 
   <div mat-dialog-actions>
+    <button mat-button color="warn" (click)="deleteTask()" *ngIf="isAdmin">Удалить</button>
     <button mat-button (click)="dialogRef.close()">Закрыть</button>
     <button mat-button *ngIf="isAdmin" (click)="saveChanges()" [disabled]="taskForm.invalid">
       Сохранить

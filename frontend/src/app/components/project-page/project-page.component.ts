@@ -106,6 +106,7 @@ export class ProjectPageComponent implements OnInit {
         this.kanbanService.createTask(taskData).subscribe(newTask => {
           const firstColumn = this.columns.find(col => col.id === firstColumnId);
           if (firstColumn) firstColumn.tasks.push(newTask);
+          this.loadTasks();
         });
       }
     });
@@ -141,8 +142,8 @@ export class ProjectPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(updatedTask => {
-      if (updatedTask) {
-        this.loadTasks(); // Перезагружаем список задач после обновления
+      if (updatedTask || updatedTask == 'deleted') {
+        this.loadTasks();
       }
     });
   }

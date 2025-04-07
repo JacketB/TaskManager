@@ -1,4 +1,4 @@
-import {Controller, Post, Body, Get, Param, Put} from '@nestjs/common';
+import {Controller, Post, Body, Get, Param, Put, Delete} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task } from './task.entity';
 import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
@@ -55,5 +55,13 @@ export class TaskController {
             body.userId,
             body.columnId
         );
+    }
+
+    @Delete(':id')
+    @ApiOperation({summary: "Удалить задачу"})
+    @ApiResponse({status: 200, description: 'Задача удален', type: Task })
+    @ApiResponse({status: 404, description: 'Задача не найдена'})
+    async deleteTask(@Param('id') id: number): Promise<void> {
+        return this.taskService.deleteTask(id);
     }
 }

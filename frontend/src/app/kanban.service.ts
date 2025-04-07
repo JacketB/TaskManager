@@ -31,6 +31,10 @@ export class KanbanService {
     return this.http.put<Task>(`${this.baseUrl}/tasks/${id}`, data);
   }
 
+  deleteTask(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/tasks/${id}`);
+  }
+
   createTask(task: {
     title: string;
     description: string;

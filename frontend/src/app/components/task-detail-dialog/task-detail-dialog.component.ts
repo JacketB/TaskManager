@@ -11,7 +11,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 export class TaskDetailDialogComponent {
   taskForm: FormGroup;
   isAdmin: boolean = localStorage.getItem('role') === 'admin';
-  minDate: Date = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<TaskDetailDialogComponent>,
@@ -35,6 +34,14 @@ export class TaskDetailDialogComponent {
       this.kanbanService.updateTask(updatedTask.id, updatedTask).subscribe(() => {
         this.dialogRef.close(updatedTask);
       });
+    }
+  }
+
+  deleteTask() {
+    if(this.task) {
+      this.kanbanService.deleteTask(this.task.id).subscribe(() => {
+        this.dialogRef.close('deleted');
+      })
     }
   }
 
