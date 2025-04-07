@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 export class HomeComponent {
   newProject?: ProjectData;
   allProjects?: ProjectData[];
+  isAdmin: boolean = localStorage.getItem('role') === 'admin';
 
   constructor(private dialog: MatDialog, private http: HttpClient, private router: Router) {
     this.getProjects();
