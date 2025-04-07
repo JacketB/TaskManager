@@ -28,6 +28,7 @@ import { TaskDialogComponent } from './components/task-dialog/task-dialog.compon
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { TaskDetailDialogComponent } from './components/task-detail-dialog/task-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     EditUserComponent,
     ProjectPageComponent,
     TaskDialogComponent,
+    TaskDetailDialogComponent,
   ],
     imports: [
         BrowserModule,

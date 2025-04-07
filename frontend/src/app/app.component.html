@@ -5,7 +5,7 @@
     </a>
     <span *ngIf="!projectTitle">Планировщик задач</span>
 
-    <span *ngIf="projectTitle" class="project-title">{{ projectTitle }}</span>
+    <span *ngIf="projectTitle" class="project-title">Проект: {{ projectTitle }}</span>
   </div>
   <div class="flex-center" *ngIf="isAuthenticated">
     <span class="user-login">{{userLogin}}</span>

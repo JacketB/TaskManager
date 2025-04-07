@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from "moment"
+import {TaskDetailDialogComponent} from "../task-detail-dialog/task-detail-dialog.component";
 
 interface Task {
   id: number;
@@ -68,6 +69,8 @@ export class ProjectPageComponent implements OnInit {
 
 
   loadTasks(): void {
+    this.columns.forEach(col => col.tasks = []);
+
     this.kanbanService.getTasksByProjectId(this.projectId).subscribe(tasks => {
       tasks.forEach(task => {
         const column = this.columns.find(col => col.id === task.column.id);
@@ -128,6 +131,18 @@ export class ProjectPageComponent implements OnInit {
     }
   }
 
+  openTaskDetailDialog(task: any): void {
+    const dialogRef = this.dialog.open(TaskDetailDialogComponent, {
+      width: '400px',
+      data: task
+    });
+
+    dialogRef.afterClosed().subscribe(updatedTask => {
+      if (updatedTask) {
+        this.loadTasks(); // Перезагружаем список задач после обновления
+      }
+    });
+  }
 
   protected readonly localStorage = localStorage;
   protected readonly moment = moment;

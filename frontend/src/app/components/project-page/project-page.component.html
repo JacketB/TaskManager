@@ -15,8 +15,7 @@
       (cdkDropListDropped)="drop($event, column.id)"
       [cdkDropListDisabled]="localStorage.getItem('role') !== 'admin' && restrictedColumns  == column.id"
     >
-
-      <div *ngFor="let task of column.tasks" class="example-box" cdkDrag>
+      <div *ngFor="let task of column.tasks" class="example-box" cdkDrag (click)="openTaskDetailDialog(task)">
         <h2 class="title">{{ task.title }}</h2>
 
         <div class="flex-between">
