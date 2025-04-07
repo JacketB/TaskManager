@@ -12,10 +12,16 @@
 
   <mat-form-field>
     <mat-label>Дата завершения</mat-label>
-    <input matInput formControlName="dueDate" [matDatepicker]="picker">
+    <input
+      matInput
+      formControlName="dueDate"
+      [matDatepicker]="picker"
+      [matDatepickerFilter]="dateFilter"
+    >
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+
 
   <mat-form-field>
     <mat-label>Приоритет</mat-label>

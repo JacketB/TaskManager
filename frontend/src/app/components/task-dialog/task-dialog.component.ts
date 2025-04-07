@@ -46,4 +46,10 @@ export class TaskDialogComponent implements OnInit {
     this.taskForm.controls['dueDate'].setValue(event.value);
     this.taskForm.controls['dueDate'].updateValueAndValidity();
   }
+
+  dateFilter = (date: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // обнуляем время
+    return date ? date >= today : false;
+  };
 }

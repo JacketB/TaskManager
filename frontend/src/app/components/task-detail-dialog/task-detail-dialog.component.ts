@@ -11,6 +11,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 export class TaskDetailDialogComponent {
   taskForm: FormGroup;
   isAdmin: boolean = localStorage.getItem('role') === 'admin';
+  minDate: Date = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<TaskDetailDialogComponent>,
@@ -36,4 +37,10 @@ export class TaskDetailDialogComponent {
       });
     }
   }
+
+  dateFilter = (date: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // обнуляем время
+    return date ? date >= today : false;
+  };
 }

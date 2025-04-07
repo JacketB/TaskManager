@@ -75,3 +75,8 @@ h2 {
 .title {
   padding-left: 0;
 }
+
+.overdue-text {
+  color: red;
+  font-weight: bold;
+}

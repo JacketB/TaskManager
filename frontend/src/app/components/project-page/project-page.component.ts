@@ -144,6 +144,21 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
+  isOverdue(dueDate: string): boolean {
+    return moment(dueDate).isBefore(moment(), 'day');
+  }
+
+  getOverdueDays(dueDate: string): number {
+    return moment().diff(moment(dueDate), 'days');
+  }
+
+  getDaysText(days: number): string {
+    if (days % 10 === 1 && days % 100 !== 11) return 'день';
+    if ([2, 3, 4].includes(days % 10) && ![12, 13, 14].includes(days % 100)) return 'дня';
+    return 'дней';
+  }
+
+
   protected readonly localStorage = localStorage;
   protected readonly moment = moment;
 }

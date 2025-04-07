@@ -12,7 +12,12 @@
 
   <mat-form-field>
     <mat-label>Дата завершения</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="dueDate" (dateChange)="onDateChange($event)">
+    <input
+      matInput
+      formControlName="dueDate"
+      [matDatepicker]="picker"
+      [matDatepickerFilter]="dateFilter"
+    >
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
