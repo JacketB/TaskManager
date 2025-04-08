@@ -49,9 +49,9 @@
             </div>
 
             <div>
-            <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
-              <span class="overdue-text">Просрочено на {{ getOverdueDays(task.dueDate) }} {{ getDaysText(getOverdueDays(task.dueDate)) }}</span>
-            </span>
+              <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
+                <span class="overdue-text">Просрочено на {{ getOverdueDays(task.dueDate) }} {{ getDaysText(getOverdueDays(task.dueDate)) }}</span>
+              </span>
             </div>
           </div>
 
