@@ -39,16 +39,19 @@
             <div class="flex-between">
               <span>Окончание</span>
               <span>
-            {{ task.dueDate | date:'dd.MM.yyyy' }}
-                <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
-            • <span class="overdue-text">Просрочено на {{ getOverdueDays(task.dueDate) }} {{ getDaysText(getOverdueDays(task.dueDate)) }}</span>
-            </span>
-          </span>
+                {{ task.dueDate | date:'dd.MM.yyyy' }}
+              </span>
             </div>
 
             <div class="flex-between">
               <span>Исполнитель</span>
               <span>{{task.assignee.name}}</span>
+            </div>
+
+            <div>
+            <span *ngIf="isOverdue(task.dueDate) && column.name !== 'done'">
+              <span class="overdue-text">Просрочено на {{ getOverdueDays(task.dueDate) }} {{ getDaysText(getOverdueDays(task.dueDate)) }}</span>
+            </span>
             </div>
           </div>
 
@@ -58,8 +61,6 @@
   </mat-tab>
   <mat-tab label="Календарь" class="p-10">
     <app-task-calendar [tasks]="allTasks"></app-task-calendar>
-
-
   </mat-tab>
 </mat-tab-group>
 
