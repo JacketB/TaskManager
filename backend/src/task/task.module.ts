@@ -16,5 +16,6 @@ import { ProjectModule } from '../project/project.module';
     ],
     providers: [TaskService],
     controllers: [TaskController],
+    exports: [TypeOrmModule.forFeature([Task])]
 })
 export class TaskModule {}

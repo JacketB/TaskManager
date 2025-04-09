@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany} from 'typeorm';
 import { Project } from '../project/project.entity';
 import { User } from '../user/user.entity';
 import { TaskColumn } from '../task-column/task-column.entity';
+import {Comment} from "../comment/comment.entity";
 
 @Entity()
 export class Task {
@@ -31,6 +32,9 @@ export class Task {
 
     @ManyToOne(() => TaskColumn, (column) => column.tasks, { onDelete: 'CASCADE' })
     column: TaskColumn;
+
+    @OneToMany(() => Comment, (comment) => comment.task)
+    comments: Comment[];
 
     @Column({ default: false })
     isCompleted: boolean;

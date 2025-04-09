@@ -8,19 +8,22 @@ import { Project } from './project/project.entity';
 import { Task } from './task/task.entity';
 import { User } from './user/user.entity';
 import { TaskColumn } from './task-column/task-column.entity';
+import { CommentModule } from './comment/comment.module';
+import {Comment} from "./comment/comment.entity";
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',  // Имя файла базы данных
-      entities: [Project, Task, User, TaskColumn], // Указываем все сущности
+      entities: [Project, Task, User, TaskColumn, Comment], // Указываем все сущности
       synchronize: true,  // Автоматическое создание таблиц на основе сущностей
     }),
     ProjectModule,
     TaskModule,
     UserModule,
     TaskColumnModule,
+    CommentModule,
   ],
 })
 export class AppModule {}

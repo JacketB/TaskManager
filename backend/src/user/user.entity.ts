@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Task } from '../task/task.entity';
+import {Comment} from "../comment/comment.entity";
 
 @Entity()
 export class User {
@@ -17,4 +18,7 @@ export class User {
 
   @OneToMany(() => Task, (task) => task.assignee, { onDelete: 'CASCADE' })
   tasks: Task[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 }
