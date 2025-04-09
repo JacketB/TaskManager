@@ -137,7 +137,7 @@ export class ProjectPageComponent implements OnInit {
 
   openTaskDetailDialog(task: any): void {
     const dialogRef = this.dialog.open(TaskDetailDialogComponent, {
-      width: '400px',
+      width: '800px',
       data: task
     });
 
@@ -161,8 +161,5 @@ export class ProjectPageComponent implements OnInit {
     if ([2, 3, 4].includes(days % 10) && ![12, 13, 14].includes(days % 100)) return 'дня';
     return 'дней';
   }
-
-
   protected readonly localStorage = localStorage;
-  protected readonly moment = moment;
 }
