@@ -1,0 +1,38 @@
+.task-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.add-comment-card {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.comment {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

@@ -10,6 +10,8 @@ import { User } from './user/user.entity';
 import { TaskColumn } from './task-column/task-column.entity';
 import { CommentModule } from './comment/comment.module';
 import {Comment} from "./comment/comment.entity";
+import {ServeStaticModule} from "@nestjs/serve-static";
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,6 +26,9 @@ import {Comment} from "./comment/comment.entity";
     UserModule,
     TaskColumnModule,
     CommentModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),  // Путь к папке с загруженными файлами
+    }),
   ],
 })
 export class AppModule {}

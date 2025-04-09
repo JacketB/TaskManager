@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
-import { CommentService } from './comment.service';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {CommentService} from './comment.service';
 import {CreateCommentDto} from "../dto/create-comment.dto";
 
 

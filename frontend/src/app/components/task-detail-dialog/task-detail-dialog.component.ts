@@ -1,6 +1,6 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {KanbanService} from "../../kanban.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -8,9 +8,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   templateUrl: './task-detail-dialog.component.html',
   styleUrls: ['./task-detail-dialog.component.css']
 })
-export class TaskDetailDialogComponent {
+export class TaskDetailDialogComponent implements OnInit {
   taskForm: FormGroup;
   isAdmin: boolean = localStorage.getItem('role') === 'admin';
+  comments: any[] = [];
+  newCommentForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<TaskDetailDialogComponent>,
@@ -24,9 +26,36 @@ export class TaskDetailDialogComponent {
       dueDate: [{ value: task.dueDate, disabled: !this.isAdmin }],
       priority: [{ value: task.priority, disabled: !this.isAdmin }]
     });
+
+    this.newCommentForm = this.fb.group({
+      newComment: ['', Validators.required]
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadComments();
+  }
+
+  loadComments() {
+    this.kanbanService.getCommentsByTaskId(this.task.id).subscribe((comments) => {
+      this.comments = comments;
+    });
+  }
+
+  addComment() {
+    if (this.newCommentForm?.invalid) return;
+
+    const newComment = {
+      content: this.newCommentForm?.value.newComment,
+      taskId: this.task.id,
+      userId: parseInt(localStorage.getItem('id') || '0', 10), // Получаем id пользователя из localStorage
+    };
+
+    this.kanbanService.createComment(newComment).subscribe((comment) => {
+      this.comments.push(comment); // Добавляем комментарий в список
+      this.newCommentForm?.reset(); // Очищаем форму
+    });
+  }
 
   saveChanges() {
     if (this.taskForm.valid) {

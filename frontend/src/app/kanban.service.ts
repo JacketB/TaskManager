@@ -52,4 +52,12 @@ export class KanbanService {
   getTasksByProjectId(projectId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/tasks/project/${projectId}`);
   }
+
+  getCommentsByTaskId(taskId: number) {
+    return this.http.get<any[]>(`${this.baseUrl}/comments/task/${taskId}`);
+  }
+
+  createComment(comment: { content: string, taskId: number, userId: number }) {
+    return this.http.post<any>(`${this.baseUrl}/comments`, comment);
+  }
 }

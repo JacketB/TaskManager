@@ -1,37 +1,60 @@
 <h2 mat-dialog-title>Детали задачи</h2>
-<form [formGroup]="taskForm" class="form-container">
-  <mat-form-field>
-    <mat-label>Название</mat-label>
-    <input matInput formControlName="title">
-  </mat-form-field>
+<form [formGroup]="taskForm" class="task-form-container">
+  <!-- Блок с основными данными задачи -->
+  <div class="task-details">
+    <mat-form-field class="full-width">
+      <mat-label>Название</mat-label>
+      <input matInput formControlName="title" [disabled]="!isAdmin">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Описание</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Описание</mat-label>
+      <textarea matInput formControlName="description" [disabled]="!isAdmin"></textarea>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Дата завершения</mat-label>
-    <input
-      matInput
-      formControlName="dueDate"
-      [matDatepicker]="picker"
-      [matDatepickerFilter]="dateFilter"
-    >
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Дата завершения</mat-label>
+      <input
+        matInput
+        formControlName="dueDate"
+        [matDatepicker]="picker"
+        [matDatepickerFilter]="dateFilter"
+        [disabled]="!isAdmin"
+      >
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
+    <mat-form-field class="full-width">
+      <mat-label>Приоритет</mat-label>
+      <mat-select formControlName="priority" [disabled]="!isAdmin">
+        <mat-option value="Low">Низкий</mat-option>
+        <mat-option value="Medium">Средний</mat-option>
+        <mat-option value="High">Высокий</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field>
-    <mat-label>Приоритет</mat-label>
-    <mat-select formControlName="priority">
-      <mat-option value="Low">Низкий</mat-option>
-      <mat-option value="Medium">Средний</mat-option>
-      <mat-option value="High">Высокий</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <!-- Раздел с комментариями -->
+  <div class="comments-section">
+    <h3>Комментарии</h3>
+    <div *ngFor="let comment of comments" class="comment">
+      <p><strong>{{ comment.author?.name }}:</strong> {{ comment.content }}</p>
+    </div>
 
+    <!-- Форма для добавления нового комментария -->
+    <mat-card class="add-comment-card" *ngIf="isAdmin">
+      <form [formGroup]="newCommentForm" (ngSubmit)="addComment()">
+        <mat-form-field class="full-width">
+          <mat-label>Добавить комментарий</mat-label>
+          <textarea matInput formControlName="newComment"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="newCommentForm.invalid">Добавить</button>
+      </form>
+    </mat-card>
+  </div>
+
+  <!-- Кнопки действий -->
   <div mat-dialog-actions>
     <button mat-button color="warn" (click)="deleteTask()" *ngIf="isAdmin">Удалить</button>
     <button mat-button (click)="dialogRef.close()">Закрыть</button>
