@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {KanbanService} from "../../kanban.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-task-detail-dialog',
@@ -13,6 +14,7 @@ export class TaskDetailDialogComponent implements OnInit {
   isAdmin: boolean = localStorage.getItem('role') === 'admin';
   comments: any[] = [];
   newCommentForm: FormGroup;
+  selectedFile: File | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<TaskDetailDialogComponent>,
@@ -34,6 +36,7 @@ export class TaskDetailDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComments();
+    console.log(this.task);
   }
 
   loadComments() {
@@ -42,20 +45,33 @@ export class TaskDetailDialogComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   addComment() {
     if (this.newCommentForm?.invalid) return;
 
-    const newComment = {
-      content: this.newCommentForm?.value.newComment,
-      taskId: this.task.id,
-      userId: parseInt(localStorage.getItem('id') || '0', 10), // Получаем id пользователя из localStorage
-    };
+    const formData = new FormData();
+    formData.append('content', this.newCommentForm.value.newComment);
+    formData.append('taskId', this.task.id.toString());
+    formData.append('userId', localStorage.getItem('id') || '0');
 
-    this.kanbanService.createComment(newComment).subscribe((comment) => {
-      this.comments.push(comment); // Добавляем комментарий в список
-      this.newCommentForm?.reset(); // Очищаем форму
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
+
+    this.kanbanService.createComment(formData).subscribe((comment) => {
+      this.comments.push(comment);
+      this.newCommentForm.reset();
+      this.selectedFile = null;
     });
   }
+
+
 
   saveChanges() {
     if (this.taskForm.valid) {
@@ -79,4 +95,5 @@ export class TaskDetailDialogComponent implements OnInit {
     today.setHours(0, 0, 0, 0); // обнуляем время
     return date ? date >= today : false;
   };
+  protected readonly moment = moment;
 }

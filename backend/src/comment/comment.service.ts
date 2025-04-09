@@ -16,7 +16,7 @@ export class CommentService {
         private userRepository: Repository<User>,
     ) {}
 
-    async createComment(taskId: number, userId: number, content: string): Promise<Comment> {
+    async createComment(taskId: number, userId: number, content: string, filePath?: string | null): Promise<Comment> {
         const task = await this.taskRepository.findOne({ where: { id: taskId } });
         const user = await this.userRepository.findOne({ where: { id: userId } });
 
@@ -31,6 +31,9 @@ export class CommentService {
         comment.content = content;
         comment.task = task;
         comment.author = user;
+        if (filePath) {
+            comment.filePath = filePath;
+        }
 
         return this.commentRepository.save(comment);
     }

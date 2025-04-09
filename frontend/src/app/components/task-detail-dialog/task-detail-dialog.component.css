@@ -42,3 +42,14 @@ mat-dialog-actions {
 h3 {
   margin: 0;
 }
+
+textarea {
+  resize: none;
+}
+
+.task-description {
+  background: #efefef;
+  padding: 5px;
+  border-radius: 4px;
+  min-height: 80px;
+}

@@ -137,7 +137,7 @@ export class ProjectPageComponent implements OnInit {
 
   openTaskDetailDialog(task: any): void {
     const dialogRef = this.dialog.open(TaskDetailDialogComponent, {
-      width: '800px',
+      width: '900px',
       data: task
     });
 

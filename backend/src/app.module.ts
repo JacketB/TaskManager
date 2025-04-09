@@ -27,7 +27,8 @@ import { join } from 'path';
     TaskColumnModule,
     CommentModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),  // Путь к папке с загруженными файлами
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/files'
     }),
   ],
 })

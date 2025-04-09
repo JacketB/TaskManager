@@ -1,11 +1,19 @@
 <h2 mat-dialog-title>Детали задачи</h2>
 <form [formGroup]="taskForm" class="task-form-container">
   <!-- Блок с основными данными задачи -->
-  <div class="task-details">
+
+  <div class="task-details p-10" *ngIf="!isAdmin">
+    <h2>Описание</h2>
+    <p class="task-description">{{task.description}}</p>
+    <p>Приоритет: {{task.priority == "Medium" ? "Средний" : task.priority == "Low" ? "Низкий" : "Высокий"}}</p>
+    <p>Дата завершения: {{moment(task.dueDate).format('DD.MM.YYYY')}}</p>
+  </div>
+
+  <div class="task-details" *ngIf="isAdmin">
     <div class="flex-between">
       <mat-form-field>
         <mat-label>Название</mat-label>
-        <input matInput formControlName="title" [disabled]="!isAdmin">
+        <input matInput formControlName="title">
       </mat-form-field>
 
       <mat-form-field>
@@ -15,7 +23,6 @@
           formControlName="dueDate"
           [matDatepicker]="picker"
           [matDatepickerFilter]="dateFilter"
-          [disabled]="!isAdmin"
         >
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -23,7 +30,7 @@
 
       <mat-form-field>
         <mat-label>Приоритет</mat-label>
-        <mat-select formControlName="priority" [disabled]="!isAdmin">
+        <mat-select formControlName="priority">
           <mat-option value="Low">Низкий</mat-option>
           <mat-option value="Medium">Средний</mat-option>
           <mat-option value="High">Высокий</mat-option>
@@ -31,20 +38,22 @@
       </mat-form-field>
     </div>
 
-
     <mat-form-field class="full-width">
       <mat-label>Описание</mat-label>
-      <textarea matInput formControlName="description" rows="6" [disabled]="!isAdmin"></textarea>
+      <textarea matInput formControlName="description" rows="6"></textarea>
     </mat-form-field>
   </div>
 
-  <mat-card class="add-comment-card" *ngIf="isAdmin">
+  <mat-card class="add-comment-card">
     <form [formGroup]="newCommentForm" (ngSubmit)="addComment()">
       <mat-form-field class="full-width">
         <mat-label>Добавить комментарий</mat-label>
         <textarea matInput formControlName="newComment"></textarea>
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="newCommentForm.invalid">Добавить</button>
+      <div class="flex-between">
+        <button mat-raised-button color="primary" [disabled]="newCommentForm.invalid">Добавить</button>
+        <input type="file" (change)="onFileSelected($event)" />
+      </div>
     </form>
   </mat-card>
 
@@ -52,7 +61,25 @@
 
   <div class="comments-section">
     <div *ngFor="let comment of comments" class="comment">
-      <p><strong>{{ comment.author?.name }}:</strong> {{ comment.content }}</p>
+      <p><strong>{{ comment.author?.name }}</strong></p>
+      <p>
+        {{ comment.content }}
+      </p>
+      <ng-container *ngIf="comment.filePath">
+        <div class="flex-between flex-center">
+          <span>Вложения:</span>
+          <a
+            mat-raised-button
+            color="primary"
+            [href]="'http://localhost:3000/comments/download/' + comment.filePath"
+            download
+            class="download-link"
+          >
+            <mat-icon>attach_file</mat-icon>
+            Скачать файл
+          </a>
+        </div>
+      </ng-container>
     </div>
   </div>
 

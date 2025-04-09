@@ -57,7 +57,7 @@ export class KanbanService {
     return this.http.get<any[]>(`${this.baseUrl}/comments/task/${taskId}`);
   }
 
-  createComment(comment: { content: string, taskId: number, userId: number }) {
-    return this.http.post<any>(`${this.baseUrl}/comments`, comment);
+  createComment(data: FormData | any) {
+    return this.http.post(`${this.baseUrl}/comments`, data);
   }
 }
